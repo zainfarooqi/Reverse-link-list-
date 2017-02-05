@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h> 
+struct node_R
+{
+    int     m_value;
+    node_R* m_next;
+};
+node_R* createNode(int value)
+{
+    node_R* newNode = (node_R*)malloc(sizeof(node_R));
+    if (newNode)
+    {
+        newNode->m_value = value;
+        newNode->m_next = NULL;
+    }
+    return newNode;
+}
+void addNode(node_R** list, int value)
+{
+    if (!*list)
+    {
+        *list = createNode(value);
+        return;
+    }
+    node_R* listPtr = *list;
+    while (listPtr->m_next)
+    {
+        listPtr = listPtr->m_next;
+    }
+    listPtr->m_next = createNode(value);
+}
+void printList(node_R* list)
+{
+    while (list)
+    {
+        printf("%d\n", list->m_value);
+        list = list->m_next;
+    }
+    printf("\n");
+}
+node_R* reverseList(node_R* head)
+{
+    node_R* cursor = NULL;
+    node_R* next;
+    while (head)
+    {
+        next = head->m_next;
+        head->m_next = cursor;
+        cursor = head;
+        head = next;
+    }
+    return cursor;
+}
+int main(int argc, char** argv)
+{
+    int i;
+    node_R* head = NULL;
+ 
+    for (i = 0; i < 10; i++) {
+        addNode(&head, i);
+    }
+ 
+    head = reverseList(head);
+    printList(head);
+ 
+    exit(0);
+}
